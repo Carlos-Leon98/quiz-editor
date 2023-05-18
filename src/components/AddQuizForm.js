@@ -6,20 +6,35 @@ import React, { useState, useEffect } from "react";
 
 function AddQuizForm() {
   const [quizName, setQuizName] = useState("");
-  const [question, setQuestion] = useState("");
+  const [questions, setQuestions] = useState([]);
   const [quizList, setQuizList] = useState([]);
+  const [counter, setCounter] = useState(1);
 
   useEffect(() => {
     const storedQuizList = JSON.parse(localStorage.getItem("quizList")) || [];
     setQuizList(storedQuizList);
   }, []);
 
+  const handleAddQuestion = () => {
+    setCounter(counter + 1);
+    setQuestions([...questions, {
+      id: counter,
+      question: ""
+    }])
+  }
+
   const handleQuizNameChange = (event) => {
     setQuizName(event.target.value);
   };
 
-  const handleQuestionChange = (event) => {
-    setQuestion(event.target.value);
+  const handleQuestionsChange = (event, id) => {
+    const updatedQuestions = questions.map(question => {
+      if (question.id === id) {
+        return {...question, value: event.target.value}
+      }
+      return question;
+    });
+    setQuestions(updatedQuestions);
   };
 
   const handleSubmit = (event) => {
@@ -27,7 +42,7 @@ function AddQuizForm() {
 
     const quiz = {
       name: quizName,
-      questions: question,
+      questions: questions,
       display: false
     };
 
@@ -36,20 +51,7 @@ function AddQuizForm() {
     setQuizList(updatedQuizList);
 
     setQuizName("");
-    setQuestion("");
-  };
-
-  const handleInsertQuestion = () => {
-    const updatedQuizList = [...quizList];
-    updatedQuizList.push({
-      name: quizName,
-      questions: question,
-      display: false
-    });
-    setQuizList(updatedQuizList);
-
-    setQuizName("");
-    setQuestion("");
+    setQuestions([]);
   };
 
   return (
@@ -65,22 +67,25 @@ function AddQuizForm() {
             onChange={handleQuizNameChange}
           />
         </div>
-        <div className="form-group mb-4 mt-4">
-          <label htmlFor="question">Question:</label>
-          <input
-            type="text"
-            id="question"
-            className="form-control"
-            value={question}
-            onChange={handleQuestionChange}
-          />
-        </div>
+        {questions.map(question => (
+          <div className='form-group mb-4 mt-4'>
+            <label htmlFor="question">Question {question.id}:</label>
+            <input
+              type="text"
+              id="question"
+              key={question.id}
+              className="form-control"
+              value={question.value}
+              onChange={event => handleQuestionsChange(event, question.id)}
+            />
+          </div>
+        ))}
         <div className='d-flex justify-content-end'>
           <Button 
             type='button'
             className='mb-4'
             variant='outline-success'
-            onClick={handleInsertQuestion}
+            onClick={handleAddQuestion}
           >
             <Plus /> Insert Another Question
           </Button>
