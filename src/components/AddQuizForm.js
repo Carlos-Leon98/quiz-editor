@@ -4,7 +4,7 @@ import { Plus } from 'react-bootstrap-icons';
 import React, { useState, useEffect } from "react";
 
 
-function AddQuizForm() {
+function AddQuizForm({ onCancel }) {
   const [quizName, setQuizName] = useState("");
   const [questions, setQuestions] = useState([]);
   const [quizList, setQuizList] = useState([]);
@@ -87,15 +87,24 @@ function AddQuizForm() {
             variant='outline-success'
             onClick={handleAddQuestion}
           >
-            <Plus /> Insert Another Question
+            <Plus /> Insert Question
           </Button>
         </div>
-        <button
-          type="submit"
-          className="btn btn-outline-success"
-        >
-          Save
-        </button>
+        <div className='d-flex justify-content-between'>
+          <Button
+            type="submit"
+            variant="outline-success"
+          >
+            Save
+          </Button>
+          <Button
+            variant="outline-danger"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+        </div>
+        
       </form>
     </main>
   );

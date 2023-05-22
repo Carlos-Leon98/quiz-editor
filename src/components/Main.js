@@ -1,19 +1,19 @@
-import { useState } from "react";
 import AddQuizForm from "./AddQuizForm";
 import QuizTable from "./QuizTable";
 import Welcome from "./Welcome";
 
-function Main() {
-    const [displayForm, setDisplayForm] = useState(false);
+function Main({ isButtonClicked, onButtonClickCancel }) {
 
-    if (displayForm) {
+    if (isButtonClicked) {
         return (
             <>
                 <div className="container">
                     <div className="row">
                         <QuizTable />
                         
-                        <AddQuizForm />
+                        <AddQuizForm 
+                            onCancel={onButtonClickCancel}
+                        />
                     </div>
                 </div>
             </>
