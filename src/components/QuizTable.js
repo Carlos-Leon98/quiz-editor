@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DeleteButton from "./DeleteButton";
 
-function QuizTable({ onShow }) {
+function QuizTable({ onShow, onGetQuizNumber }) {
   const [quizList, setQuizList] = useState([]);
 
   useEffect(() => {
@@ -28,7 +28,10 @@ function QuizTable({ onShow }) {
           {quizList.map((quiz, index) => (
             <tr
               key={index}
-              onClick={onShow}
+              onClick={() => {
+                onShow();
+                onGetQuizNumber(index);
+              }}
             >
               <td className="d-flex justify-content-between">
                 {quiz.name}

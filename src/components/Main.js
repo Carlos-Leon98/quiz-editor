@@ -6,6 +6,7 @@ import Quiz from "./Quiz";
 
 function Main({ isButtonClicked, onButtonClickCancel }) {
     const [displayQuiz, setDisplayQuiz] = useState(false);
+    const [quizNumber, setQuizNumber] = useState();
 
     const showQuiz = () => {
         setDisplayQuiz(true);
@@ -16,12 +17,17 @@ function Main({ isButtonClicked, onButtonClickCancel }) {
         onButtonClickCancel();
     }
 
+    const getQuizNumber = (number) => {
+        setQuizNumber(number)
+    }
+
     return (
         <>
             <div className="container">
                 <div className="row">
                     <QuizTable
                         onShow={showQuiz}
+                        onGetQuizNumber={getQuizNumber}
                     />
                     
                     {(isButtonClicked && !displayQuiz) ? (
@@ -33,6 +39,7 @@ function Main({ isButtonClicked, onButtonClickCancel }) {
                     ) : (
                         <Quiz
                             onClose={closeQuiz}
+                            onSetQuizNumber={quizNumber}
                         />
                     )}
                     
