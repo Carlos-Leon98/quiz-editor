@@ -1,36 +1,45 @@
+import { useState } from "react";
 import AddQuizForm from "./AddQuizForm";
 import QuizTable from "./QuizTable";
 import Welcome from "./Welcome";
+import Quiz from "./Quiz";
 
 function Main({ isButtonClicked, onButtonClickCancel }) {
+    const [displayQuiz, setDisplayQuiz] = useState(false);
 
-    if (isButtonClicked) {
-        return (
-            <>
-                <div className="container">
-                    <div className="row">
-                        <QuizTable />
-                        
+    const showQuiz = () => {
+        setDisplayQuiz(true);
+    }
+
+    const closeQuiz = () => {
+        setDisplayQuiz(false);
+        onButtonClickCancel();
+    }
+
+    return (
+        <>
+            <div className="container">
+                <div className="row">
+                    <QuizTable
+                        onShow={showQuiz}
+                    />
+                    
+                    {(isButtonClicked && !displayQuiz) ? (
                         <AddQuizForm 
                             onCancel={onButtonClickCancel}
                         />
-                    </div>
-                </div>
-            </>
-        );
-    } else {
-        return (
-            <>
-                <div className="container">
-                    <div className="row">
-                        <QuizTable />
-                        
+                    ) : (!isButtonClicked && !displayQuiz) ? (
                         <Welcome />
-                    </div>
+                    ) : (
+                        <Quiz
+                            onClose={closeQuiz}
+                        />
+                    )}
+                    
                 </div>
-            </>
-        );
-    }
+            </div>
+        </>
+    )
 
 }
 
