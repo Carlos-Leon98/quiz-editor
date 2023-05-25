@@ -9,8 +9,10 @@ function Quiz({ onClose, onSetQuizNumber }) {
             <h3>{quizList[onSetQuizNumber].name}</h3>
 
             {quizList[onSetQuizNumber].questions.map(question => (
-                <div>
-                    {question.value}
+                <div className='card mt-3 mb-3'>
+                    <div className='card-body'>
+                        {question.value}
+                    </div>
                 </div>
             ))}
             <Button
