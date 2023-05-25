@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import DeleteButton from "./DeleteButton";
+import { Eye } from 'react-bootstrap-icons';
+import { Button } from "react-bootstrap";
 
 function QuizTable({ onShow, onGetQuizNumber }) {
   const [quizList, setQuizList] = useState([]);
@@ -26,16 +29,22 @@ function QuizTable({ onShow, onGetQuizNumber }) {
         </thead>
         <tbody>
           {quizList.map((quiz, index) => (
-            <tr
-              key={index}
-              onClick={() => {
-                onShow();
-                onGetQuizNumber(index);
-              }}
-            >
+            <tr key={index}>
               <td className="d-flex justify-content-between">
                 {quiz.name}
-                <DeleteButton index={index} onClick={() => removeQuiz(index)} />
+                <div>
+                  <Button
+                    variant="outline-success"
+                    onClick={() => {
+                      onShow();
+                      onGetQuizNumber(index);
+                    }}
+                  >
+                    <Eye />
+                  </Button>
+                  <DeleteButton index={index} onClick={() => removeQuiz(index)} />
+                </div>
+                
               </td>
             </tr>
           ))}
